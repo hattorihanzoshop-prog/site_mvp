@@ -153,7 +153,7 @@ async def get_industries():
     return industries
 
 # Не забудь включить роутер в приложение в самом конце файла!
-app.include_router(api_router)
+
 
 @api_router.get("/reports/{report_id}", response_model=ReportOut)
 async def get_report(report_id: str):
