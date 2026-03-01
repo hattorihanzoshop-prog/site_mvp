@@ -1,0 +1,19 @@
+/* Additional component styles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Select dropdown styling */
+select option {
+  background-color: #0F1D32;
+  color: #E2E8F0;
+}

@@ -1,0 +1,147 @@
+{
+  "brand_identity": {
+    "name": "Flow Consulting",
+    "tagline": "Data-Driven Insights for Strategic Decisions",
+    "tone": "Authoritative, Premium, Visionary, Trustworthy",
+    "aesthetic": "Dark Mode Executive",
+    "audience": "Fortune 500 Execs, Investors, Strategy Consultants"
+  },
+  "design_system": {
+    "colors": {
+      "primary": {
+        "DEFAULT": "#0A1628",
+        "foreground": "#FFFFFF",
+        "description": "Deep Navy/Void for backgrounds"
+      },
+      "secondary": {
+        "DEFAULT": "#1B2A41",
+        "foreground": "#E2E8F0",
+        "description": "Lighter Navy for card backgrounds"
+      },
+      "accent": {
+        "DEFAULT": "#00B4D8",
+        "alt": "#3B82F6",
+        "foreground": "#FFFFFF",
+        "description": "Electric Blue for primary actions and highlights"
+      },
+      "cta": {
+        "DEFAULT": "#F59E0B",
+        "foreground": "#000000",
+        "description": "Amber/Gold for conversion buttons (Buy, Subscribe)"
+      },
+      "text": {
+        "primary": "#F8FAFC",
+        "secondary": "#94A3B8",
+        "muted": "#64748B"
+      },
+      "status": {
+        "success": "#10B981",
+        "error": "#EF4444",
+        "warning": "#F59E0B"
+      },
+      "gradients": {
+        "hero": "radial-gradient(circle at 50% 0%, #172a4f 0%, #0A1628 60%)",
+        "glass": "linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%)",
+        "beam": "conic-gradient(from 90deg at 50% 50%, #00000000 50%, #00B4D8 100%)"
+      }
+    },
+    "typography": {
+      "font_family": {
+        "heading": "Outfit, sans-serif",
+        "body": "Inter, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scaling": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tight leading-none",
+        "h2": "text-3xl md:text-5xl font-bold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-semibold",
+        "body_lg": "text-lg md:text-xl leading-relaxed text-slate-300",
+        "body": "text-base leading-relaxed text-slate-400",
+        "caption": "text-sm text-slate-500 uppercase tracking-widest font-medium"
+      }
+    },
+    "spacing": {
+      "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+      "section_padding": "py-24 md:py-32",
+      "element_gap": "gap-8 md:gap-12"
+    },
+    "effects": {
+      "glassmorphism": {
+        "base": "backdrop-blur-xl bg-white/5 border border-white/10",
+        "hover": "hover:bg-white/10 hover:border-white/20 transition-all duration-300",
+        "dark": "backdrop-blur-xl bg-black/40 border border-white/5"
+      },
+      "shadows": {
+        "glow": "0 0 40px -10px rgba(0, 180, 216, 0.3)",
+        "card": "0 20px 40px -20px rgba(0, 0, 0, 0.5)"
+      },
+      "radius": {
+        "default": "rounded-xl",
+        "card": "rounded-2xl",
+        "button": "rounded-full"
+      }
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.unsplash.com/photo-1762279389006-43963a0cee55?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG5ldHdvcmslMjBkYXRhJTIwdmlzdWFsaXphdGlvbiUyMGRhcmslMjBibHVlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzIzNjA2MjV8MA&ixlib=rb-4.1.0&q=85",
+      "executives_meeting": "https://images.unsplash.com/photo-1631701731910-2c6c6c1545f2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzV8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGV4ZWN1dGl2ZXMlMjBtZWV0aW5nJTIwZGl2ZXJzZSUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3NzIzNjA2MjZ8MA&ixlib=rb-4.1.0&q=85",
+      "modern_building": "https://images.unsplash.com/photo-1714601344981-75e003bc5d18?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzV8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBhcmNoaXRlY3R1cmUlMjBza3lzY3JhcGVyJTIwZ2xhc3N8ZW58MHx8fHwxNzcyMzYwNjI2fDA&ixlib=rb-4.1.0&q=85",
+      "abstract_purple_ring": "https://images.unsplash.com/photo-1759771963975-8a4885446f1f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMG5ldHdvcmslMjBkYXRhJTIwdmlzdWFsaXphdGlvbiUyMGRhcmslMjBibHVlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzIzNjA2MjV8MA&ixlib=rb-4.1.0&q=85",
+      "placeholder_report_cover": "https://images.unsplash.com/photo-1762279388956-1c098163a2a8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMG5ldHdvcmslMjBkYXRhJTIwdmlzdWFsaXphdGlvbiUyMGRhcmslMjBibHVlJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzIzNjA2MjV8MA&ixlib=rb-4.1.0&q=85"
+    },
+    "icons": "Use 'lucide-react' for all UI icons. Use 'BarChart3', 'PieChart', 'TrendingUp', 'Globe', 'ShieldCheck', 'Users', 'Download', 'ChevronRight', 'Search', 'Filter', 'ShoppingCart' as primary set."
+  },
+  "layout_strategies": {
+    "hero_section": {
+      "structure": "Full-screen (h-screen) with canvas particle background. Centered typography with maximum z-index.",
+      "content": "H1: 'Strategic Intelligence for the Future'. Sub: 'Premium market reports trusted by the Fortune 500'. Buttons: 'Explore Reports' (Accent), 'Custom Research' (Ghost)."
+    },
+    "report_catalog": {
+      "grid_type": "Bento Grid (mix of sizes).",
+      "card_style": "Dark glassmorphism. Hover: Glow effect + slight lift.",
+      "filters": "Sidebar or Top Bar sticky. Glass finish."
+    },
+    "why_choose_us": {
+      "layout": "Asymmetrical 2-column. Left: Sticky typography. Right: Scrolling feature cards with 3D icons or high-quality abstract visuals."
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#00B4D8] text-white hover:bg-[#0096B4] rounded-full px-8 py-4 font-semibold shadow-[0_0_20px_rgba(0,180,216,0.3)] transition-all",
+      "cta_gold": "bg-[#F59E0B] text-black hover:bg-[#D97706] rounded-full px-8 py-4 font-bold shadow-[0_0_20px_rgba(245,158,11,0.3)]",
+      "ghost": "bg-white/5 border border-white/10 text-white hover:bg-white/10 rounded-full px-8 py-4 backdrop-blur-md"
+    },
+    "report_card": {
+      "wrapper": "group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md transition-all hover:border-[#00B4D8]/50 hover:shadow-[0_0_40px_-10px_rgba(0,180,216,0.2)]",
+      "image": "aspect-[4/3] rounded-lg bg-slate-800 object-cover mb-4 grayscale group-hover:grayscale-0 transition-all duration-500",
+      "title": "text-xl font-bold text-white mb-2 group-hover:text-[#00B4D8] transition-colors",
+      "price": "text-[#F59E0B] font-mono font-bold text-lg"
+    },
+    "inputs": {
+      "default": "bg-white/5 border border-white/10 text-white placeholder:text-slate-500 focus:border-[#00B4D8] focus:ring-1 focus:ring-[#00B4D8] rounded-lg px-4 py-3 backdrop-blur-sm"
+    }
+  },
+  "motion": {
+    "page_load": "Fade in + Staggered slide up for elements.",
+    "scroll": "Use 'framer-motion' for whileInView animations. Opacity 0 -> 1, y: 20 -> 0.",
+    "hover": "Scale 1.02, Glow intensity increase."
+  },
+  "instructions_to_main_agent": [
+    "Install 'lucide-react', 'framer-motion', 'clsx', 'tailwind-merge' if not present.",
+    "Ensure 'tailwind.config.js' includes the custom colors and fonts (Outfit/Inter).",
+    "Use 'react-tsparticles' or a custom Canvas for the Hero background effect. Keep it lightweight.",
+    "Implement the 'Shopping Cart' as a slide-over drawer (Sheet component from shadcn).",
+    "Use 'sonner' for all toast notifications (Added to Cart, Payment Success).",
+    "Strictly follow the Dark Mode aesthetic. No white backgrounds.",
+    "For the 'Report Detail Modal', use a Dialog component with a blurred backdrop."
+  ],
+  "universal_guidelines": [
+    "Avoid 'AI Slop': Do not use generic gradients or centered text everywhere.",
+    "Contrast is King: Ensure text is readable on dark backgrounds (WCAG AA).",
+    "Interactive Feedback: Every button and card MUST have a hover state.",
+    "Spacing: Use 'py-24' or 'py-32' for section spacing. Do not cram content.",
+    "No generic 50/50 layouts without a twist (offset, overlap, or asymmetry).",
+    "Use 'data-testid' on all interactive elements."
+  ]
+}
