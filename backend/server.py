@@ -15,10 +15,37 @@ from starlette.responses import StreamingResponse
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
 
+import json
+
+class JSONDatabase:
+    def __init__(self, file_path):
+        with open(file_path, 'r') as f:
+            self._data = json.load(f)
+    
+    def __getattr__(self, name):
+        # Возвращает "коллекцию" из JSON (например, db.reports)
+        return MockCollection(self._data.get(name, []))
+
+class MockCollection:
+    def __init__(self, data): self.data = data
+    async def find(self, query=None, **kwargs):
+        # Простая имитация поиска
+        res = [i for i in self.data if all(i.get(k) == v for k, v in (query or {}).items())]
+        class Cursor:
+            def __init__(self, items): self.items = items
+            def sort(self, *args): return self
+            def skip(self, *args): return self
+            def limit(self, *args): return self
+            async def to_list(self, length=None): return self.items[:length] if length else self.items
+        return Cursor(res)
+    async def find_one(self, query):
+        items = await (await self.find(query)).to_list()
+        return items[0] if items else None
+    async def insert_one(self, doc): self.data.append(doc); return doc
+    async def count_documents(self, query): return len(self.data)
+
+db = JSONDatabase(ROOT_DIR / 'db_dump.json')
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
