@@ -690,8 +690,7 @@ async def get_report_prices():
 
 @api_router.post("/checkout")
 async def create_checkout(request: Request, body: CheckoutRequest):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionRequest, CheckoutSessionResponse
-
+    
     prices = await get_report_prices()
     total_amount = 0.0
     item_details = []
@@ -751,7 +750,6 @@ async def create_checkout(request: Request, body: CheckoutRequest):
 
 @api_router.get("/checkout/status/{session_id}")
 async def get_checkout_status(session_id: str):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout
 
     api_key = os.environ.get("STRIPE_API_KEY")
     stripe_checkout = StripeCheckout(api_key=api_key, webhook_url="")
@@ -777,7 +775,6 @@ async def get_checkout_status(session_id: str):
 
 @api_router.post("/webhook/stripe")
 async def stripe_webhook(request: Request):
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout
 
     api_key = os.environ.get("STRIPE_API_KEY")
     host_url = str(request.base_url).rstrip("/")
