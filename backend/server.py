@@ -129,15 +129,6 @@ class ReportOut(BaseModel):
     keywords: List[str]
 
 # --- Роуты API ---
-@api_router.get("/industries")
-async def get_industries():
-    # Извлекаем все уникальные индустрии из списка отчетов
-    reports_cursor = await db.reports.find({})
-    reports_list = await reports_cursor.to_list()
-    # Собираем уникальные значения и сортируем их
-    industries = sorted(list(set(r.get("industry") for r in reports_list if r.get("industry"))))
-    return industries
-
 @api_router.get("/reports", response_model=List[ReportOut])
 async def get_reports(
     industry: Optional[str] = Query(None), 
@@ -152,6 +143,17 @@ async def get_reports(
     
     cursor = await db.reports.find(query)
     return await cursor.to_list(limit)
+
+@api_router.get("/industries")
+async def get_industries():
+    # Получаем все уникальные индустрии из базы данных
+    reports_cursor = await db.reports.find({})
+    reports_list = await reports_cursor.to_list()
+    industries = sorted(list(set(r.get("industry") for r in reports_list if r.get("industry"))))
+    return industries
+
+# Не забудь включить роутер в приложение в самом конце файла!
+app.include_router(api_router)
 
 @api_router.get("/reports/{report_id}", response_model=ReportOut)
 async def get_report(report_id: str):
