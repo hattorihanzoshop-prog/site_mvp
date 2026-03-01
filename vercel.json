@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "backend/server.py": {
-      "runtime": "vercel-python@0.1.0"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "backend/server.py"
+      "destination": "/api/index.py"
     },
     {
       "source": "/admin",
