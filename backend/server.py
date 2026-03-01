@@ -15,6 +15,8 @@ from starlette.responses import StreamingResponse
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
+BASE_DIR = Path(__file__).parent
+DB_PATH = BASE_DIR / "db_dump.json"
 
 import json
 
