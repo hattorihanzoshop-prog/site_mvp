@@ -9,44 +9,20 @@ from pydantic import BaseModel, Field
 from typing import List, Optional, Dict
 import uuid
 from datetime import datetime, timezone
-from io import BytesIO
-from starlette.responses import StreamingResponse
 
-# Настройка путей
+# --- Настройка путей (ВАЖНО для Vercel) ---
+# Находим путь к файлу db_dump.json относительно этого файла
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "db_dump.json"
 
-class JSONDatabase:
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self._data = {}
-        self.reload()
+load_dotenv(BASE_DIR / '.env')
 
-    def reload(self):
-        try:
-            if os.path.exists(self.file_path):
-                with open(self.file_path, 'r', encoding='utf-8') as f:
-                    self._data = json.load(f)
-            else:
-                print(f"WARNING: Database file not found at {self.file_path}")
-                self._data = {}
-        except Exception as e:
-            print(f"ERROR loading database: {e}")
-            self._data = {}
-    
-    def __getattr__(self, name):
-        # Если ключа нет в JSON, возвращаем MockCollection с пустым списком
-        return MockCollection(self._data.get(name, []))
-
-# Инициализируем БД
-db = JSONDatabase(DB_PATH)
-# --- Имитация базы данных MongoDB через JSON ---
+# --- Имитация работы MongoDB через JSON ---
 class MockCursor:
     def __init__(self, data):
         self.data = data
 
     def sort(self, field, direction=-1):
-        # Простая сортировка (обычно по дате или ID)
         try:
             self.data.sort(key=lambda x: x.get(field, ""), reverse=(direction == -1))
         except:
@@ -75,7 +51,6 @@ class MockCollection:
                 item for item in self.data 
                 if all(item.get(k) == v for k, v in query.items())
             ]
-        # Возвращаем копию данных, чтобы не менять оригинал в памяти
         return MockCursor(list(filtered_data))
 
     async def find_one(self, query):
@@ -87,6 +62,8 @@ class MockCollection:
         if "id" not in document:
             document["id"] = str(uuid.uuid4())
         self.data.append(document)
+        # В реальной жизни тут должна быть запись в файл, 
+        # но на Vercel файловая система Read-Only.
         return document
 
     async def count_documents(self, query):
@@ -97,23 +74,31 @@ class MockCollection:
 class JSONDatabase:
     def __init__(self, file_path):
         self.file_path = file_path
-        if os.path.exists(file_path):
-            with open(file_path, 'r', encoding='utf-8') as f:
-                self._storage = json.load(f)
-        else:
-            self._storage = {}
+        self._data = {}
+        self.reload()
 
+    def reload(self):
+        try:
+            if os.path.exists(self.file_path):
+                with open(self.file_path, 'r', encoding='utf-8') as f:
+                    self._data = json.load(f)
+                print(f"Database loaded successfully from {self.file_path}")
+            else:
+                print(f"WARNING: Database file not found at {self.file_path}")
+                self._data = {}
+        except Exception as e:
+            print(f"ERROR loading database: {e}")
+            self._data = {}
+    
     def __getattr__(self, name):
-        # Возвращает коллекцию из JSON или пустой список, если её нет
-        return MockCollection(self._storage.get(name, []))
+        return MockCollection(self._data.get(name, []))
 
-# Инициализация "БД"
+# Инициализируем БД один раз
 db = JSONDatabase(DB_PATH)
 
 app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
-# Настройка CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -121,9 +106,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 # --- Модели данных ---
 class ReportOut(BaseModel):
@@ -168,14 +150,10 @@ async def get_reports(
 
 @api_router.get("/industries")
 async def get_industries():
-    # Получаем все уникальные индустрии из базы данных
     reports_cursor = await db.reports.find({})
     reports_list = await reports_cursor.to_list()
     industries = sorted(list(set(r.get("industry") for r in reports_list if r.get("industry"))))
     return industries
-
-# Не забудь включить роутер в приложение в самом конце файла!
-
 
 @api_router.get("/reports/{report_id}", response_model=ReportOut)
 async def get_report(report_id: str):
@@ -186,29 +164,21 @@ async def get_report(report_id: str):
 
 @api_router.post("/research-request")
 async def research_request(data: dict):
-    data["created_at"] = datetime.now(timezone.utc).isoformat()
     await db.custom_research_requests.insert_one(data)
     return {"status": "success"}
 
-@api_router.post("/newsletter-signup")
-async def newsletter_signup(data: dict):
-    await db.newsletter_signups.insert_one(data)
-    return {"status": "success"}
-
-# --- Админ-панель (упрощенная проверка пароля) ---
 @api_router.get("/admin/stats")
 async def get_admin_stats(password: str = Query(...)):
     if password != os.getenv("ADMIN_PASSWORD"):
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
     return {
         "reports_count": await db.reports.count_documents({}),
         "requests_count": await db.custom_research_requests.count_documents({}),
-        "signups_count": await db.newsletter_signups.count_documents({})
     }
 
 @api_router.get("/")
 async def root():
     return {"message": "Flow Consulting API", "status": "running", "database": "JSON-mode"}
 
+# Важно: включаем роутер ПОСЛЕ определения всех функций
 app.include_router(api_router)
