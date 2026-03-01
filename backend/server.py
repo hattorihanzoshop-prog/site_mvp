@@ -13,11 +13,33 @@ from io import BytesIO
 from starlette.responses import StreamingResponse
 
 # Настройка путей
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "db_dump.json"
 
-DB_PATH = ROOT_DIR / "db_dump.json"
+class JSONDatabase:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self._data = {}
+        self.reload()
 
+    def reload(self):
+        try:
+            if os.path.exists(self.file_path):
+                with open(self.file_path, 'r', encoding='utf-8') as f:
+                    self._data = json.load(f)
+            else:
+                print(f"WARNING: Database file not found at {self.file_path}")
+                self._data = {}
+        except Exception as e:
+            print(f"ERROR loading database: {e}")
+            self._data = {}
+    
+    def __getattr__(self, name):
+        # Если ключа нет в JSON, возвращаем MockCollection с пустым списком
+        return MockCollection(self._data.get(name, []))
+
+# Инициализируем БД
+db = JSONDatabase(DB_PATH)
 # --- Имитация базы данных MongoDB через JSON ---
 class MockCursor:
     def __init__(self, data):
