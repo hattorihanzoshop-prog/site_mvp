@@ -20,7 +20,7 @@ import SearchOverlay from './components/SearchOverlay';
 import SampleDownloadModal from './components/SampleDownloadModal';
 import AdminPage from './components/admin/AdminPage';
 
-const API = '/api';
+const API = (process.env.REACT_APP_API_URL || '') + '/api';
 
 function MainPage() {
   const [reports, setReports] = useState([]);
